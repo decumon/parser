@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <a href="https://market.csgo.com/api/v2/search-list-items-by-hash-name-all?key=Ic01ERCKhpW48pksAlRK7yrIDtd643Y&extended=1&list_hash_name[]=★%20Driver%20Gloves%20|%20King%20Snake%20(Field-Tested)">★
+        Driver Gloves | King Snake (Field-Tested)</a>;
+    <button onclick="start()">Start</button>
+    <button onclick="stop()">Stop</button>
+    <button id="soundbtn" onclick="soundOffOn()" style="border: 0px; padding: 0px; height: 30.14px;"> <img src="img/sound1.png" alt="" width="30px">  </button>
+    <button onclick="parserFullExport()">Parser Full Export</button>
+    <button onclick="startFE()">StartFE</button>
+    <button onclick="stopFE()">StopFE</button>
+    <textarea name="" id="GloveText"></textarea>
+    <textarea name="" id="FEText"></textarea>
+</body>
+
+</html>
+
+<script>
+    const audio = new Audio('sounds/new_message_notice.mp3');
+    audio.volume=0.5;
+
+    let interval = null;
+    let isWorkFE;
+    let isWork;
+    let notif=true;
+    let notifPrice0_15;
+    let notifPrice0_21;
+    let notifPrice0_24;
+    let buyPrice0_15;
+    let buyPrice0_21;
+    let buyPrice0_24;
+    let notifPrice;
+    let buyPrice;
+
+    const apiKey="Ic01ERCKhpW48pksAlRK7yrIDtd643Y";
+    const soundbtn=document.getElementById("soundbtn");
+    const fullExport="https://market.csgo.com/api/full-export/RUB.json";
+    const skipPrice=100;
+    const balance=11700000;
+    const percentOut=27;
+
+    let notifMnozh=((30-percentOut)*0.00816+1)*100; // множитель для подсчета новый цены при желании выводить не в +30%
+    let buyMnozh=((30-percentOut)*0.006+0.666)*100;          //       1,3x=0,666   1,25x=0,696                1%=0,006
+
+    let gloveKingSnake = "★ Driver Gloves | King Snake (Field-Tested)";
+    let gloveFade = "★ Specialist Gloves | Fade (Field-Tested)";
+    let gloveMarbleFade = "★ Specialist Gloves | Marble Fade (Field-Tested)";
+    let gloveSmokeOut = "★ Moto Gloves | Smoke Out (Field-Tested)";
+    let gloveBlackTie = "★ Driver Gloves | Black Tie (Field-Tested)";
+    let gloveTurtle = "★ Moto Gloves | Turtle (Field-Tested)";
+    let gloveCobaltSkulls = "★ Hand Wraps | Cobalt Skulls (Field-Tested)";
+    let glovePolygon = "★ Moto Gloves | Polygon (Field-Tested)";
+    let gloveImperialPlaid = "★ Driver Gloves | Imperial Plaid (Field-Tested)";
+    let gloveLunarWeave = "★ Driver Gloves | Lunar Weave (Field-Tested)";
+    let gloveScarlenShamagh = "★ Sport Gloves | Scarlet Shamagh (Field-Tested)";
+    let gloveRezanTheRed = "★ Driver Gloves | Rezan the Red (Field-Tested)";
+    let gloveCrimsonWeb = "★ Specialist Gloves | Crimson Web (Field-Tested)";
+    let gloveBloodPressure = "★ Moto Gloves | Blood Pressure (Field-Tested)";
+    let gloveCrimsonWeave = "★ Driver Gloves | Crimson Weave (Field-Tested)";
+    let gloveTigerStrike = "★ Specialist Gloves | Tiger Strike (Field-Tested)"; //--------------------------
+    let gloveOverprint = "★ Hand Wraps | Overprint (Field-Tested)" //пока говно
+    let gloveFinishLine = "★ Moto Gloves | Finish Line (Field-Tested)"; //--------------------------------
+    let gloveFieldAgent = "★ Specialist Gloves | Field Agent (Field-Tested)"//---------------------
+    let glovePOW = "★ Moto Gloves | POW! (Field-Tested)";//----------------
+    let gloveOmega = "★ Sport Gloves | Omega (Field-Tested)";//------------------------------
+    let gloveAmphibious = "★ Sport Gloves | Amphibious (Field-Tested)";//??????????----------------
+
+    let gloves = new Array(gloveKingSnake, gloveFade, gloveMarbleFade, gloveSmokeOut, gloveBlackTie);
+    let gloves1 = new Array(gloveTurtle, gloveCobaltSkulls, glovePolygon, gloveImperialPlaid, gloveLunarWeave);
+    let gloves2 = new Array(gloveScarlenShamagh, gloveRezanTheRed, gloveCrimsonWeb, gloveBloodPressure, gloveCrimsonWeave);
+
+    let glovesArr = {
+         kingSnake: {mhm:gloveKingSnake,                    buff0_15:53000, buff0_21:37000, buff0_24:31000, steam0_15:73000, steam0_21:52000, steam0_24:43000},
+         gloveFade: {mhm:gloveFade,                         buff0_15:53000, buff0_21:42000, buff0_24:36000, steam0_15:70000, steam0_21:53000, steam0_24:50000},
+         gloveMarbleFade: {mhm:gloveMarbleFade,             buff0_15:36000, buff0_21:28500, buff0_24:25000, steam0_15:44000, steam0_21:39000, steam0_24:36000},
+         gloveSmokeOut: { mhm:gloveSmokeOut,                buff0_15:19000, buff0_21:17500, buff0_24:15200, steam0_15:25000, steam0_21:22000, steam0_24:20500},
+         gloveBlackTie: { mhm:gloveBlackTie,                buff0_15:26800, buff0_21:22500, buff0_24:20000, steam0_15:37000, steam0_21:34000, steam0_24:28000},
+         gloveTurtle: { mhm:gloveTurtle,                    buff0_15:14500, buff0_21:13100, buff0_24:12800, steam0_15:21000, steam0_21:20000, steam0_24:18800},
+         gloveCobaltSkulls: { mhm:gloveCobaltSkulls,        buff0_15:47000, buff0_21:40100, buff0_24:38200, steam0_15:62000, steam0_21:55000, steam0_24:53000},
+         glovePolygon: { mhm:glovePolygon,                  buff0_15:19100, buff0_21:17800, buff0_24:16600, steam0_15:29500, steam0_21:27000, steam0_24:25000},
+         gloveImperialPlaid: { mhm:gloveImperialPlaid,      buff0_15:40500, buff0_21:35300, buff0_24:33000, steam0_15:55000, steam0_21:50000, steam0_24:43500},
+         gloveLunarWeave: { mhm:gloveLunarWeave,            buff0_15:20600, buff0_21:16200, buff0_24:15400, steam0_15:28000, steam0_21:24500, steam0_24:21000},         
+         gloveScarlenShamagh: { mhm:gloveScarlenShamagh,    buff0_15:40000, buff0_21:34700, buff0_24:33700, steam0_15:50000, steam0_21:47000, steam0_24:44000},
+         gloveRezanTheRed: { mhm:gloveRezanTheRed,          buff0_15:12400, buff0_21:12100, buff0_24:11600, steam0_15:19000, steam0_21:17500, steam0_24:17000},
+         gloveCrimsonWeb: { mhm:gloveCrimsonWeb,            buff0_15:33500, buff0_21:28000, buff0_24:26500, steam0_15:46000, steam0_21:40000, steam0_24:37000},
+         gloveBloodPressure: { mhm:gloveBloodPressure,      buff0_15:21000, buff0_21:19000, buff0_24:18400, steam0_15:31000, steam0_21:26200, steam0_24:24200},
+         gloveCrimsonWeave: { mhm:gloveCrimsonWeave,        buff0_15:37200, buff0_21:29500, buff0_24:27300, steam0_15:45000, steam0_21:40000, steam0_24:38000},
+         gloveTigerStrike: { mhm:gloveTigerStrike,          buff0_15:51600, buff0_21:43500, buff0_24:40800, steam0_15:60000, steam0_21:55000, steam0_24:53000},
+         gloveOverprint: { mhm:gloveOverprint,              buff0_15:19500, buff0_21:18500, buff0_24:18400, steam0_15:28000, steam0_21:26000, steam0_24:25000},
+         gloveFinishLine: { mhm:gloveFinishLine,            buff0_15:18200, buff0_21:16200, buff0_24:15300, steam0_15:23000, steam0_21:21000, steam0_24:19500},
+         gloveFieldAgent: { mhm:gloveFieldAgent,            buff0_15:34400, buff0_21:28000, buff0_24:24400, steam0_15:40000, steam0_21:36000, steam0_24:34000},
+         glovePOW: { mhm:glovePOW,                          buff0_15:28500, buff0_21:22700, buff0_24:18800, steam0_15:38000, steam0_21:28000, steam0_24:24000},
+         gloveOmega: { mhm:gloveOmega,                      buff0_15:55100, buff0_21:44600, buff0_24:40300, steam0_15:81000, steam0_21:60000, steam0_24:57000},
+         gloveAmphibious: { mhm:gloveAmphibious,            buff0_15:82500, buff0_21:72000, buff0_24:67300, steam0_15:110000, steam0_21:95000, steam0_24:90000},
+    }; //ПЕРЕПИСАТЬ УБРАТЬ glove glove1 ИТД ПЕРЕСЫЛАТЬ ЭТУ ШТУКУ     
+
+    let itemsFE={                                //есть еще itemsFE надеюсь ниче не сломает
+        "Charm | Die-cast AK": [
+            {priceNotif:650,    priceBuy:900,  pattern1:0,     pattern2:14000,    type:"pattern"},
+            {priceNotif:600,    priceBuy:900,   pattern1:14000, pattern2:20000,    type:"pattern"},
+            {priceNotif:2100,   priceBuy:2700,  pattern1:20000, pattern2:21000,    type:"pattern"},
+            {priceNotif:2100,   priceBuy:2700,  pattern1:23000, pattern2:24000,    type:"pattern"},
+            {priceNotif:3000,   priceBuy:4000,  pattern1:21000, pattern2:23000,    type:"pattern"}],
+        "Charm | Disco MAC": [
+            {priceNotif:70,    priceBuy:120,   pattern1:0,     pattern2:10000,    type:"pattern"},/////////////////+
+            {priceNotif:70,    priceBuy:115,   pattern1:10000, pattern2:15000,    type:"pattern"},
+            {priceNotif:70,    priceBuy:110,   pattern1:27000, pattern2:28000,    type:"pattern"}],
+        "Charm | Glamour Shot": [
+            {priceNotif:260,    priceBuy:300,   pattern1:0,     pattern2:5000,    type:"pattern"}],
+        "Charm | Titeenium AWP": [
+            //{priceNotif:400,    priceBuy:850,   pattern1:0,     pattern2:5000,    type:"pattern"},
+            //{priceNotif:400,    priceBuy:750,   pattern1:70000, pattern2:80000,    type:"pattern"},
+            {priceNotif:440,    priceBuy:750,   pattern1:80000, pattern2:90000,    type:"pattern"},
+            {priceNotif:500,    priceBuy:950,   pattern1:90000, pattern2:95000,    type:"pattern"},                                         //+
+            {priceNotif:600,    priceBuy:1000,  pattern1:95000, pattern2:100000,    type:"pattern"}],
+        "Charm | Semi-Precious": [
+            {priceNotif:2000,   priceBuy:3000,  pattern1:0,     pattern2:10000,    type:"pattern"},
+            {priceNotif:2000,   priceBuy:2800,  pattern1:85000, pattern2:90000,    type:"pattern"},
+            {priceNotif:2150,   priceBuy:3300,  pattern1:90000, pattern2:95000,    type:"pattern"},
+            {priceNotif:2500,   priceBuy:3400,  pattern1:95000, pattern2:100000,    type:"pattern"}],
+        "Charm | Baby Karat T": [
+            {priceNotif:3500,   priceBuy:4300,  pattern1:60000, pattern2:90000,    type:"pattern"},
+            {priceNotif:4000,   priceBuy:6100,  pattern1:90000, pattern2:100000,    type:"pattern"}],
+        "Charm | Baby Karat CT": [
+            {priceNotif:1600,   priceBuy:2400,  pattern1:75000, pattern2:90000,    type:"pattern"},
+            {priceNotif:1910,   priceBuy:2800,  pattern1:90000, pattern2:100000,    type:"pattern"}],
+
+        "Charm | Pinch O' Salt": [
+            {priceNotif:50,     priceBuy:85,    pattern1:0,     pattern2:3000,    type:"pattern"}],
+        "Charm | Hot Sauce": [
+            {priceNotif:50,     priceBuy:70,    pattern1:0,     pattern2:10000,    type:"pattern"}],
+        "Charm | Lil' SAS": [
+            {priceNotif:400,    priceBuy:450,   pattern1:0,     pattern2:2000,    type:"pattern"}],
+       "Charm | Lil' Sandy": [
+            {priceNotif:230,    priceBuy:300,   pattern1:0,     pattern2:2500,    type:"pattern"},
+            {priceNotif:100,    priceBuy:150,   pattern1:95000, pattern2:100000,    type:"pattern"}],
+        // "Charm | Lil' Whiskers": [
+        //     {priceNotif:170,   priceBuy:210,   pattern1:0,     pattern2:5000,    type:"pattern"},
+        //     {priceNotif:170,   priceBuy:200,   pattern1:20000, pattern2:25000,    type:"pattern"},??
+        //     {priceNotif:160,   priceBuy:210,   pattern1:30000, pattern2:55000,    type:"pattern"}],       50-55 360r
+        "Charm | Chicken Lil": [
+            {priceNotif:170,   priceBuy:255,   pattern1:0,      pattern2:4000,    type:"pattern"},
+            //{priceNotif:180,   priceBuy:240,   pattern1:45000, pattern2:55000,    type:"pattern"}
+        ],
+        "Charm | Lil' Monster": [
+            {priceNotif:600,   priceBuy:900,   pattern1:0,      pattern2:4000,    type:"pattern"},
+            {priceNotif:640,   priceBuy:1000,  pattern1:90000,  pattern2:100000,    type:"pattern"}],
+        "Charm | Hot Wurst": [
+            {priceNotif:1800,  priceBuy:2600,  pattern1:95000,  pattern2:10000,    type:"pattern"}],
+        "Charm | Hot Howl": [
+            {priceNotif:4800,  priceBuy:8000,  pattern1:0,      pattern2:10000,    type:"pattern"}],
+        "AK-47 | Redline (Field-Tested)": [
+            {priceNotif:5000,    priceBuy:7100,   float1:0.15,   float2:0.18,    type:"float"},
+            {priceNotif:3800,    priceBuy:5300,   float1:0.18,   float2:0.21,    type:"float"}],
+        "M4A1-S | Vaporwave (Field-Tested)": [
+            {priceNotif:9800,    priceBuy:14000,   float1:0.15,   float2:0.17,    type:"float"}],
+        "Desert Eagle | Heat Treated (Field-Tested)": [
+            {priceNotif:600,    priceBuy:800,   pattern1:109, pattern2:109,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:116, pattern2:116,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:134, pattern2:134,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:158, pattern2:158,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:168, pattern2:168,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:225, pattern2:225,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:288, pattern2:288,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:338, pattern2:338,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:354, pattern2:354,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:356, pattern2:356,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:365, pattern2:365,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:386, pattern2:386,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:406, pattern2:406,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:433, pattern2:433,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:441, pattern2:441,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:483, pattern2:483,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:537, pattern2:537,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:542, pattern2:542,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:592, pattern2:592,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:607, pattern2:607,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:611, pattern2:611,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:651, pattern2:651,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:668, pattern2:668,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:673, pattern2:673,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:696, pattern2:696,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:730, pattern2:730,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:820, pattern2:820,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:846, pattern2:846,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:856, pattern2:856,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:876, pattern2:876,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:882, pattern2:882,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:898, pattern2:898,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:900, pattern2:900,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:942, pattern2:942,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:946, pattern2:946,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:951, pattern2:951,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:953, pattern2:953,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:998, pattern2:998,    type:"pattern"},
+            {priceNotif:600,    priceBuy:800,   pattern1:764, pattern2:764,    type:"pattern"},
+
+            {priceNotif:4000,    priceBuy:4000,   pattern1:16, pattern2:16,      type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:48, pattern2:48,      type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:66, pattern2:66,      type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:67, pattern2:67,      type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:96, pattern2:96,      type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:111, pattern2:111,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:117, pattern2:117,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:159, pattern2:159,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:259, pattern2:259,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:263, pattern2:263,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:273, pattern2:273,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:297, pattern2:297,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:308, pattern2:308,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:321, pattern2:321,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:324, pattern2:324,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:341, pattern2:341,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:347, pattern2:347,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:263, pattern2:263,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:370, pattern2:370,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:426, pattern2:426,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:461, pattern2:461,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:482, pattern2:482,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:517, pattern2:517,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:530, pattern2:530,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:567, pattern2:567,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:587, pattern2:587,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:674, pattern2:674,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:723, pattern2:723,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:772, pattern2:772,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:781, pattern2:781,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:790, pattern2:790,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:792, pattern2:792,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:843, pattern2:843,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:880, pattern2:880,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:885, pattern2:885,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:904, pattern2:904,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:948, pattern2:948,    type:"pattern"},
+            {priceNotif:4000,    priceBuy:4000,   pattern1:990, pattern2:990,    type:"pattern"}],
+        "Desert Eagle | Heat Treated (Battle-Scarred)": [
+            {priceNotif:250,    priceBuy:300,   pattern1:109, pattern2:109,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:116, pattern2:116,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:134, pattern2:134,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:158, pattern2:158,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:168, pattern2:168,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:225, pattern2:225,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:288, pattern2:288,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:338, pattern2:338,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:354, pattern2:354,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:356, pattern2:356,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:365, pattern2:365,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:386, pattern2:386,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:406, pattern2:406,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:433, pattern2:433,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:441, pattern2:441,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:483, pattern2:483,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:537, pattern2:537,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:542, pattern2:542,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:592, pattern2:592,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:607, pattern2:607,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:611, pattern2:611,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:651, pattern2:651,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:668, pattern2:668,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:673, pattern2:673,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:696, pattern2:696,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:730, pattern2:730,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:820, pattern2:820,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:846, pattern2:846,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:856, pattern2:856,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:876, pattern2:876,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:882, pattern2:882,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:898, pattern2:898,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:900, pattern2:900,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:942, pattern2:942,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:946, pattern2:946,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:951, pattern2:951,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:953, pattern2:953,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:998, pattern2:998,    type:"pattern"},
+            {priceNotif:250,    priceBuy:300,   pattern1:764, pattern2:764,    type:"pattern"},
+
+            {priceNotif:2000,    priceBuy:2500,   pattern1:16, pattern2:16,      type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:48, pattern2:48,      type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:66, pattern2:66,      type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:67, pattern2:67,      type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:96, pattern2:96,      type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:111, pattern2:111,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:117, pattern2:117,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:159, pattern2:159,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:259, pattern2:259,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:263, pattern2:263,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:273, pattern2:273,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:297, pattern2:297,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:308, pattern2:308,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:321, pattern2:321,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:324, pattern2:324,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:341, pattern2:341,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:347, pattern2:347,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:263, pattern2:263,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:370, pattern2:370,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:426, pattern2:426,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:461, pattern2:461,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:482, pattern2:482,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:517, pattern2:517,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:530, pattern2:530,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:567, pattern2:567,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:587, pattern2:587,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:674, pattern2:674,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:723, pattern2:723,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:772, pattern2:772,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:781, pattern2:781,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:790, pattern2:790,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:792, pattern2:792,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:843, pattern2:843,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:880, pattern2:880,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:885, pattern2:885,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:904, pattern2:904,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:948, pattern2:948,    type:"pattern"},
+            {priceNotif:2000,    priceBuy:2500,   pattern1:990, pattern2:990,    type:"pattern"}],
+        "Desert Eagle | Heat Treated (Well-Worn)": [
+            {priceNotif:450,    priceBuy:500,   pattern1:109, pattern2:109,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:116, pattern2:116,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:134, pattern2:134,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:158, pattern2:158,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:168, pattern2:168,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:225, pattern2:225,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:288, pattern2:288,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:338, pattern2:338,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:354, pattern2:354,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:356, pattern2:356,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:365, pattern2:365,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:386, pattern2:386,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:406, pattern2:406,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:433, pattern2:433,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:441, pattern2:441,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:483, pattern2:483,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:537, pattern2:537,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:542, pattern2:542,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:592, pattern2:592,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:607, pattern2:607,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:611, pattern2:611,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:651, pattern2:651,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:668, pattern2:668,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:673, pattern2:673,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:696, pattern2:696,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:730, pattern2:730,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:820, pattern2:820,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:846, pattern2:846,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:856, pattern2:856,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:876, pattern2:876,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:882, pattern2:882,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:898, pattern2:898,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:900, pattern2:900,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:942, pattern2:942,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:946, pattern2:946,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:951, pattern2:951,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:953, pattern2:953,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:998, pattern2:998,    type:"pattern"},
+            {priceNotif:450,    priceBuy:500,   pattern1:764, pattern2:764,    type:"pattern"},
+
+            {priceNotif:2500,    priceBuy:3000,   pattern1:16, pattern2:16,      type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:48, pattern2:48,      type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:66, pattern2:66,      type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:67, pattern2:67,      type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:96, pattern2:96,      type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:111, pattern2:111,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:117, pattern2:117,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:159, pattern2:159,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:259, pattern2:259,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:263, pattern2:263,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:273, pattern2:273,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:297, pattern2:297,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:308, pattern2:308,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:321, pattern2:321,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:324, pattern2:324,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:341, pattern2:341,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:347, pattern2:347,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:263, pattern2:263,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:370, pattern2:370,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:426, pattern2:426,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:461, pattern2:461,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:482, pattern2:482,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:517, pattern2:517,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:530, pattern2:530,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:567, pattern2:567,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:587, pattern2:587,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:674, pattern2:674,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:723, pattern2:723,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:772, pattern2:772,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:781, pattern2:781,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:790, pattern2:790,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:792, pattern2:792,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:843, pattern2:843,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:880, pattern2:880,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:885, pattern2:885,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:904, pattern2:904,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:948, pattern2:948,    type:"pattern"},
+            {priceNotif:2500,    priceBuy:3000,   pattern1:990, pattern2:990,    type:"pattern"}],
+    }      
+    
+    //console.log(itemsFE);
+    const worker = new Worker('worker.js')      // воркер на перчи
+    const worker2 = new Worker('worker2.js')    // воркер на полный экспорт
+
+    const blacklist = [                   // блеклист перчей
+        { price:0, float:0,},
+
+        // Добавляй новые элементы сюда
+    ];
+
+    const blacklistFE = [                     //блеклист для полного экспорта
+        // { price:10100, id: 6327798246},
+        // { price:10100, id: 6328785663},
+        // { price:10100, id: 6328849635},
+        // { price:10100, id: 6328878255},
+        // {price: 10000, id:6312326265},
+        // {price: 50000, id:6284490381},
+        {price: 10000, id:6352000281}, 
+        {price: 188800, id:6424225110},
+        {price: 60000, id:6356013624}, 
+    ];
+
+    function parser() {
+        worker.postMessage({gloves, gloves1, gloves2, isWork});         // парсер перчей
+    }
+
+    function parserFE(){
+        worker2.postMessage({isWorkFE});                                 // парсер полного экспорта
+    }
+
+    worker.onmessage = function (e) {
+        try {            
+            const now = new Date();
+            document.getElementById("GloveText").value="Данные получены\n"+now
+            //console.log("Данные получены", now)
+            const { combinedData } = e.data;
+
+            for (const [gloveName, gloveArray] of Object.entries(combinedData.data)) {
+
+                Object.entries(glovesArr).some(([key, gloveData]) => {
+                    if (gloveData.mhm === gloveName) {
+                        check(gloveArray, gloveData);
+                        return true; // ✅ Останавливаем цикл
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Ошибка загрузки данных:', error);
+        }
+    }
+    // Вызываем функцию загрузки
+
+    worker2.onmessage=function(e){
+        const {itemsFE}=e.data;
+        const {myDate}=e.data;
+        //console.log(`Время обновления: ${myDate}`);
+        document.getElementById("FEText").value="Время обновления\n"+myDate;
+        itemsFE.forEach((item,index) =>{ parserFullExport2(item, index);})
+    }
+
+    async function parserFullExport2(item, index){
+        const responseFE2=await fetch (`https://market.csgo.com/api/full-export/${item}`);
+        const dataFE2= await responseFE2.json();
+        let i=0;
+        dataFE2.forEach((item,index) =>{ 
+            Object.entries(itemsFE).some(([key, itemData]) => {
+                    if (key === item[2]) {
+                        checkFE(item, itemData)
+                        return true; // ✅ Останавливаем цикл
+                    }
+                });
+        })       
+    }
+
+    function check(data, prices) {
+        const items = data;
+        
+        items.forEach((item, index) => { // Перебираем массив предметов
+            //console.log(item);
+            if (!isInBlacklist(item.price, item.extra.float)) {   
+                notifPrice0_15=prices.buff0_15*notifMnozh; 
+                notifPrice0_21=prices.buff0_21*notifMnozh;              // рачет цен для каждой пары перчей для уведомлений
+                notifPrice0_24=prices.buff0_24*notifMnozh; 
+                buyPrice0_15=prices.steam0_15*buyMnozh;
+                buyPrice0_21=prices.steam0_21*buyMnozh;                 //расчет цен для каждой пары перчей для покупки
+                buyPrice0_24=prices.steam0_24*buyMnozh;
+
+                if (item.price <= buyPrice0_15 && item.extra.float >= 0.15 && item.extra.float <= 0.18 && item.price<= balance) {                
+                    Buy(apiKey, item.id, item.price, prices.mhm, item.extra.float);
+                    const formPrice = Math.floor(item.price / 100).toLocaleString('ru-RU');
+                    //console.log(`КУПЛЕНО ${prices.mhm} за ${formPrice} float: ${item.extra.float}`);
+                }
+                if (item.price <= buyPrice0_21 && item.extra.float >= 0.18 && item.extra.float <= 0.21 && item.price<= balance) {               
+                    Buy(apiKey, item.id, item.price, prices.mhm, item.extra.float);
+                    const formPrice = Math.floor(item.price / 100).toLocaleString('ru-RU');
+                    //console.log(`КУПЛЕНО ${prices.mhm} за ${formPrice} float: ${item.extra.float}`);
+                }
+                if (item.price <= buyPrice0_24 && item.extra.float >= 0.21 && item.extra.float <= 0.24 && item.price<= balance) {                
+                    Buy(apiKey, item.id, item.price, prices.mhm, item.extra.float);
+                    const formPrice = Math.floor(item.price / 100).toLocaleString('ru-RU');
+                    //console.log(`КУПЛЕНО ${prices.mhm} за ${formPrice} float: ${item.extra.float}`);
+                }             
+                
+                if (item.price <= notifPrice0_15 && item.extra.float >= 0.15 && item.extra.float <= 0.18) {
+                    const formPrice = Math.floor(item.price / 100).toLocaleString('ru-RU');
+                    console.log("ПОКУПАЕМ", prices.mhm, `${index}: Цена - ${formPrice}, Флоат - ${item.extra.float}, id - ${item.id}`);
+                    notifPlay();
+                }
+                if (item.price <= notifPrice0_21 && item.extra.float >= 0.18 && item.extra.float <= 0.21) {
+                    const formPrice = Math.floor(item.price / 100).toLocaleString('ru-RU');
+                    console.log("ПОКУПАЕМ", prices.mhm, `${index}: Цена - ${formPrice}, Флоат - ${item.extra.float}, id - ${item.id}`);
+                    notifPlay();
+                }
+                if (item.price <= notifPrice0_24 && item.extra.float >= 0.21 && item.extra.float <= 0.24) {
+                    const formPrice = Math.floor(item.price / 100).toLocaleString('ru-RU');
+                    console.log("ПОКУПАЕМ", prices.mhm, `${index}: Цена - ${formPrice}, Флоат - ${item.extra.float}, id - ${item.id}`);
+                    notifPlay();
+                }     
+            }
+        });
+    }
+
+    function checkFE(item, prices) {
+       // console.log(item);
+       // console.log(prices);
+        //перебирать prices, если item[12]>pattern1 && item[12]<pattern2, то если цена < priceBuy*mnozh... Buy(), если <priceNotif*mnozh... Notif()
+        if (!isInBlacklistFE(item[0], item[1])) {   
+            Object.entries(prices).some(([key, data]) => {
+            if (data.type="pattern")
+            {
+                if (item[12]>=data.pattern1 && item[12]<=data.pattern2 && item[12]!=undefined)
+                {
+                    notifPrice=Math.round(data.priceNotif*notifMnozh, -2);
+                    buyPrice=Math.round(data.priceBuy*buyMnozh, -2);
+                    if (item[0]<buyPrice)
+                    {
+                        Buy(apiKey, item[1], item[0], item[2], item[12]);
+                        return true;                              
+                    }
+                    if (item[0]<notifPrice)
+                    {
+                        console.log(`${item[2]} \tpaintseed: ${item[12]} \tprice: ${item[0]/100} <${notifPrice/100}, id:${item[1]}`);
+                    }
+                    return true;
+                }
+            }
+            if (data.type="float")
+            {
+                if (item[10]>data.float1 && item[10]<data.float2)
+                {
+                    notifPrice=Math.round(data.priceNotif*notifMnozh, -2);
+                    buyPrice=Math.round(data.priceBuy*buyMnozh, -2);
+                    if (item[0]<buyPrice)
+                    {
+                        Buy(apiKey, item[1], item[0], item[2], item[10]);
+                        return true;                              
+                    }
+                    if (item[0]<notifPrice)
+                    {
+                        console.log(`${item[2]} \tfloat: ${item[10]} \tprice: ${item[0]/100} <${notifPrice/100}`);
+                    }
+                    return true;
+                }
+            }
+            });
+    }
+    }
+
+    function start() {       // старт парсера перчей
+        notifPlay();        
+        isWork=true;
+        parser();
+    }
+
+    function stop() {       // стоп парсера перчей
+        notifPlay();
+        isWork=false;
+        parser();           
+    }
+
+    function startFE() {   // старт парсера полного экспорта
+        //notifPlay();        
+        isWorkFE=true;
+        parserFE();
+    }
+
+    function stopFE() {  // стоп парсера полного эскопрта
+        //notifPlay();
+        isWorkFE=false;
+        parserFE();           
+    }
+
+    function isInBlacklist(price, float) {        // проверка на наличией перчей в blacklist
+        return blacklist.some(item => {
+        //if (price==item.price) console.log("price +");
+        //if (float==item.float) console.log("float +");
+        //console.log("typeof item.price:", typeof(item.price),"typeof price:",typeof(price),"typeof item.float", typeof(item.float), "typeof float", typeof float);
+        return (Math.abs(item.price - Number(price)))<10000 && item.float == Number(float); 
+    });
+    }
+
+    function isInBlacklistFE(priceFE, idFE) {        // проверка на наличие предмета из полного экспорта в b;acklistFE 
+        return blacklistFE.some(itemFE => {
+        //if (price==item.price) console.log("price +");
+        //if (float==item.float) console.log("float +");
+        //console.log("typeof item.price:", typeof(item.price),"typeof price:",typeof(price),"typeof item.float", typeof(item.float), "typeof float", typeof float);
+        return (Math.abs(itemFE.price - Number(priceFE)))<1000 && itemFE.id == Number(idFE); 
+    });
+    }
+
+    function soundOffOn(){          // вкл выкл звука уведов
+        if (notif==true) {
+            notif=false;
+            soundbtn.classList.add('sound-off');
+        }
+        else if (notif==false) {            
+            notif=true;
+            soundbtn.classList.remove('sound-off');
+            notifPlay();
+        }
+    }
+
+    function notifPlay(){         // проигрывание звука уведомления
+        if (notif) audio.play();
+    }
+
+    //parser();
+
+
+   //Buy("Ic01ERCKhpW48pksAlRK7yrIDtd643Y", 6276870180, 1223)
+
+    async function Buy(key, id, price, name, fp){      // покупка
+        //console.log("попытка купить");
+        //const response = await fetch(`https://market.csgo.com/api/v2/buy?key=${key}&id=${id}&price=${price}`);
+        //const data = await response.json();        
+        //notifPlay();   
+        const formPrice = Math.floor(price / 100).toLocaleString('ru-RU');
+        console.log(`КУПЛЕНО ${name} за ${formPrice}, float/pattern: ${fp}`)
+
+        // ЗАПИХАТЬ СЮДА ВСЕ CCONSOLE.LOG ПРИ ПОКУПКЕ И ПРОЧЕЕ ЦЕНЫ
+    }
+
+</script>

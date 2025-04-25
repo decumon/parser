@@ -1,0 +1,128 @@
+    название            паттерн          цена бафф              цена стим                          продажи                                  куплено             продано
+
+Charm | Die-cast AK     0-14k               800p                    1150                            1100-1300                                   ?
+Charm | Die-cast AK     14-20k              600p                    900                             900-1300                                    ++
+Charm | Die-cast AK     20-21 21-24k        2100p                   2500x1 3000                     2000-3000                                   ?
+Charm | Die-cast AK     21-23k              4300p                   5200                            -                                           ?
+Charm | Disco MAC       0-10k               100p                    155                             140-160                                     ++
+Charm | Disco MAC       10-15k              90p                     145                             140-160                                     ++
+Charm | Disco MAC       27-28k              230p                    150                             -                                           +
+Charm | Glamour Shot    0-5k                200p                    300                             260?                                        ?
+Charm | Titeenium AWP   0-5k                570p?                   900?                            900-1000                                    ++
+Charm | Titeenium AWP   70-80k              530p                    800                             900-1000                                    ++
+Charm | Titeenium AWP   80-90k              530p                    800                             900-1000                                    ++
+Charm | Titeenium AWP   90-95k              600p                    950                             900-1000                                    ++
+Charm | Titeenium AWP   95-100k             700p                    1100 steam                      1350+-                                      ++
+Charm | Semi-Precious   0-10k               2000p                   3000                            3200
+Charm | Semi-Precious   85-90k              2000p                   2800                            2700-2800
+Charm | Semi-Precious   90-95k              2150p                   3300                            3200
+Charm | Semi-Precious   95-100k             2500p                   3400                            3500-3900
+Charm | Baby Karat T    60-90k              3500p                   4300 steam                      4500-4900
+Charm | Baby Karat T    90-100k             4000p                   6100 steam                      5300-5600
+Charm | Baby Karat CT   75-90k              1600p   //95+           2400                            2600-3200                                   ++
+Charm | Baby Karat CT   90-100k             1910p    //95+          2800                            3600-4200                                   ++
+
+Charm | Pinch O' Salt       0-3k            85p                     135p steam
+Charm | Hot Sauce           0-10k           50p                     70p steam
+Charm | Lil' SAS            0-2k            400p                    450
+Charm | Lil' Sandy          0-2,5k          230p                    555p                            
+Charm | Lil' Sandy          95-100k         165p                    300 steam                       220+                                        +
+Charm | Chicken Lil'        0-4k            175p                    270 steam                       300-350                                     ++
+Charm | Chicken Lil'        45-55k          180p                    300                             500                                         ++ (оранж и роз)    49,0-50,5  440+ buff
+Charm | Lil' Monster        0-4k            600p 1x за 620 купить   900                             1000                                        ++
+Charm | Lil' Monster        90-100k         640p                    1000                            900                                         ++
+Charm | Hot Wurst           95-100k         1800p                   4600 steam                      2700-3500 
+Charm | Hot Howl            0-10k           4700p                   22000 steam                     6500-7300 
+
+
+0: price
+1: id
+2: mhn
+12: paintseed
+
+
+
+Charm | Lil' Sandy          140p    96,7            215     продано
+Charm | Disco MAC           101p    11              160     продано
+Charm | Chicken Lil'        190p    54,7            310     продано
+Charm | Chicken Lil'        200p    3,9             315     продано
+Charm | Titeenium AWP       670p    93,5            1000    продано
+Charm | Chicken Lil'        190p    46,6            310     продано
+
+Charm | Disco MAC           100p    9,1              160p   продано
+Charm | Disco MAC           100p    1,3              220p   продано
+Charm | Disco MAC           100p    27,3             150p   продано
+
+Charm | Lil' Monster        700     1,9             970     продано
+Charm | Chicken Lil'        190     47              310     продано
+Charm | Chicken Lil'        190     1,4             350     продано быстро
+
+Charm | Hot Sauce           46      9               70      продано за ночь
+Charm | Baby Karat CT       1800    87              2500    продано
+Charm | Pinch O' Salt       48      2,3             85      продано
+Charm | Titeenium AWP       640     96              1100    продано +-быстро
+Charm | Titeenium AWP       600     76              800     продано
+Charm | Titeenium AWP       620     5               850     
+Charm | Lil' Monster        660     3,2             950     продано
+
+Charm | Disco MAC           98p     11,2            150    продано за ночь      
+Charm | Disco MAC           98p     13,9            150    продано за ночь   
+Charm | Disco MAC           98p     11,1            150    продано за ночь 
+Charm | Disco MAC           98p     7               160    продано
+Charm | Disco MAC           98p     11,1            150    продано за ночь 
+Charm | Disco MAC           98p     14,8            150    продано за ночь 
+Charm | Chicken Lil'        190     4,8             260     
+
+Charm | Lil' Monster        640     94              1100    продано +- быстро
+Charm | Lil' Monster        640     91              960     продано
+
+Charm | Disco MAC           95p    9,3              150
+Charm | Disco MAC           95p    11,1             155     продано +- быстро
+Charm | Disco MAC           95p    9,9              150
+Charm | Disco MAC           95p    4,6              175     продано за день
+Charm | Disco MAC           95p    12,6             150    
+Charm | Disco MAC           98p    27               150     
+
+Charm | Chicken Lil'        182p    3,8             275     продано
+Charm | Chicken Lil'        182p    4,6             260     продано
+Charm | Titeenium AWP       585p    80,7            870     продано
+Charm | Titeenium AWP       585p    92,5            950     продано за день
+Charm | Lil' Sandy          135     96              210
+Charm | Lil' Sandy          135     96              210
+Charm | Lil' Sandy          135     96              160
+Charm | Lil' Sandy          135     96              210
+
+Charm | Die-cast AK         540     17              900     продано быстро
+Charm | Chicken Lil'        180     52,4            250     
+
+Charm | Lil' Monster        630     95,4            1080    
+Charm | Lil' Monster        630     94,9            1000    продано +-быстро
+Charm | Chicken Lil'        180     54              250     
+Charm | Chicken Lil'        180     54              245     
+Charm | Chicken Lil'        180     45              245     продано быстро
+Charm | Chicken Lil'        180     47              245     продано быстро
+
+Charm | Chicken Lil'        182p    4,8             260     продано
+Charm | Chicken Lil'        182p    2,8             275     продано быстро
+Charm | Chicken Lil'        180     54              245     
+
+Charm | Disco MAC           90      6,1             140     продано
+Charm | Disco MAC           90      6,4             140
+Charm | Disco MAC           90      8,0             140
+Charm | Disco MAC           90      10,5            140
+Charm | Disco MAC           90      10,8            140
+Charm | Disco MAC           90      8,1             140
+
+Charm | Disco MAC           90      4,3             160
+Charm | Disco MAC           90      11,6            140
+Charm | Disco MAC           100     27,9            140
+
+Charm | Titeenium AWP       540     73,9            750
+Charm | Titeenium AWP       540     78,1            800     продано
+Charm | Titeenium AWP       540     74,3            750
+Charm | Lil' Sandy          110     98              145     продано моментально
+Charm | Chicken Lil'        160     3,8             220     продано
+Charm | Titeenium AWP       540     77,2            750
+Charm | Titeenium AWP       530     87              800
+Charm | Disco MAC           95      11
+

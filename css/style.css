@@ -1,0 +1,17 @@
+#soundbtn{
+    cursor: pointer;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+#soundbtn.sound-off{
+    filter: grayscale(100%); /* делаем серым при выключении */
+    opacity: 0.5;            /* слегка затемнённый эффект */    
+}
+
+#GloveText{
+    width:300px;
+}
+
+#FEText{
+    width:300px;
+}
