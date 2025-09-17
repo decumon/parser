@@ -126,3 +126,172 @@ Charm | Titeenium AWP       540     77,2            750
 Charm | Titeenium AWP       530     87              800
 Charm | Disco MAC           95      11
 
+---------------------------------------------------------------------------------
+Charm | Lil' Sandy          200steam 1,3            375     + за 2 дня
+Charm | Lil' Whiskers       170     23              255     + за 2 дня
+Charm | Lil' Whiskers       170     24              255     + за 3 дня
+Charm | Titeenium AWP       566     88              950     + за день
+Charm | Semi-Precious       2000    3,9             3700    + за день
+Charm | Lil' Whiskers       170     47              255     + за 2 дня
+Charm | Lil' Whiskers       170     49              255     + за 3 дня
+Charm | Hot Sauce           75      4               115     + за 2 дня
+Charm | Hot Sauce           45      5,3             100     + за день
+Charm | Lil' Whiskers       170     2,8             300     + за день
+Charm | Titeenium AWP       566     88              975     + за день
+Charm | Pinch O' Salt       63      1               115     + за полдня
+Charm | Baby Karat CT       1500    96              3700    + за полдня
+
+Charm | Lil' Whiskers       170     4,1             300     + за день
+Charm | Lil' SAS            300     1,1             650     + за день
+Charm | Die-cast AK         444     17,6            925     + 12 часов
+Charm | Pinch O' Salt       50      1,6             125     + за 12 часов
+Charm | Glamour Shot        165     4,5             400     + за 2 дня
+Charm | Glamour Shot        160     3,2             500маркет :///
+Charm | Titeenium AWP       600     3,4             950     + за 3 дня
+Charm | Titeenium AWP       600     1,5             1200    + за 2 дня
+Charm | Disco MAC           90      6,5             170     + за день
+Charm | Hot Wurst           1800    97,8            3100    + за 3 дня
+Charm | Baby Karat T        3250    90,7            5250    + за 3 дня
+
+Charm | Titeenium AWP       566     92              975     + за 2 дня
+Charm | Titeenium AWP       525     79              945     + за день
+Charm | Semi-Precious       2000    3,4             3650    + за 2 дня
+Charm | Hot Sauce           42      5,9             95      + за 2 дня
+Charm | Glamour Shot        285     0,6             700     + за полдня
+---------------------------------------------------------------------------------      16 900 --> 27 350 (+61%)     27 350 - (16900*1.3) = 5 350 чистая прибыль сверху
+Charm | Lil' Whiskers       170     45              250     + за полдня
+Charm | Lil' Whiskers       170     2,6             350     + за 4 дня
+Charm | Disco MAC           110     27              180     + за полдня
+Charm | Hot Sauce           50      4,9             95      + за 2 дня
+Charm | Hot Sauce           50      8               90      + за 7 дней
+Charm | Disco MAC           95      4,1             190     + за 6 дней
+Charm | Lil' Whiskers       160     32              245     + за 4 дня
+Charm | Lil' Whiskers       170     52              245     + за 5 дней
+REDLINE                     3700    0.20            5600 ТРАЙНУТЬ
+Charm | Lil' Whiskers       170     52              245     + за 3 дня
+Charm | Lil' Whiskers       170     44              245     + за 2 дня
+Charm | Lil' Whiskers       170     21              255
+Charm | Lil' Whiskers       170     47              245     + за 3 дня
+Charm | Lil' Whiskers       170     45              245     + за 3 дня
+Charm | Lil' Whiskers       170     3               300     + за 4 дня
+Charm | Lil' Whiskers       170     1,8             300     + за день
+Charm | Lil' Whiskers       170     30              245     + за день
+Charm | Lil' Whiskers       170     24              255
+Charm | Lil' Whiskers       170     20              255
+Charm | Disco MAC           95      14              165     + за день
+Charm | Disco MAC           95      10              165     + за 1/4 дня
+Charm | Disco MAC           95      1,1             250     + за 3 дня
+Charm | Disco MAC           95      8               180     + за 1/4 дня
+Charm | Baby Karat T        3500    97              6300    + за 2 дня
+Charm | Lil' Monster        660     1,4             1100    + за 4 дня
+Charm | Titeenium AWP       700     96,5            1050    + за полдня
+Charm | Hot Wurst           1770    96              3100    + за 3 дня
+Charm | Hot Sauce           49      6,7             88
+Charm | Die-cast AK         550     13,9            1100    + за день
+
+Charm | Baby Karat CT       1600    91              2750    + за 12 часов, дороже никак
+Charm | Disco MAC           95      10              165     + за полдня
+Charm | Disco MAC           95      1,5             225     + за 2 дня
+Charm | Disco MAC           95      7,5             180     +
+Charm | Die-cast AK         550     11,5            1350    + за пару часов
+Charm | Lil' Whiskers       170     22              255
+
+Charm | Disco MAC           95      7,5             170     + за 2 дня
+Charm | Disco MAC           95      2,1             200     + за 1/4 дня
+Charm | Disco MAC           95      10,3            170     + за день
+Charm | Disco MAC           95      27              170     + за 2 дня
+Charm | Disco MAC           95      10,2            170     + за 2 дня
+Charm | Disco MAC           95      10              170     + за день
+Charm | Hot Sauce           49      6,9             90      + за 3 дня
+Charm | Titeenium AWP       585     95              1200
+Charm | Titeenium AWP       585     91              975     + за 1/2 дня
+Charm | Titeenium AWP       585     88              950     + за день
+Charm | Titeenium AWP       585     82              950     + за 3 дня
+Charm | Titeenium AWP       585     87              950     + за 3 дня
+Charm | Titeenium AWP       585     93              1000    + за 2 дня
+Charm | Disco MAC           95      3,9             190     + за день
+Charm | Disco MAC           95      14              170     + за день
+Charm | Disco MAC           95      27              170     +
+Charm | Disco MAC           95      10              175     + за день
+
+Desert Eagle | Heat Treated (Well-Worn)             898(<T3)    75          550     за день
+Desert Eagle | Heat Treated (Field-Tested)          948(T2)     3000        5800    отлетел за пару часов        переставить все 3 после 19 числа
+Desert Eagle | Heat Treated (Battle-Scarred)        998(T3?)    173         1000    за неделю
+
+Charm | Lil' Monster        660     1,3             1000
+Charm | Die-cast AK         553     17,7            1200    + за полдня
+Charm | Glamour Shot        200     4,1             550     + за день
+Charm | Lil' Whiskers       170     1               340     + за полдня, 400 не брали
+Charm | Titeenium AWP       600     83              950     + за 2 дня
+
+Charm | Die-cast AK         3000    21,3            6300    + за день, дороже не брали
+
+Charm | Titeenium AWP       600     76              950     +
+
+disco mac 160-170
+Charm | Hot Wurst           1630    97              3100    + за 3 дня
+Charm | Titeenium AWP       600     73              950     +
+Charm | Titeenium AWP       600     81              900     + за день
+Charm | Titeenium AWP       600     3               1200    +
+Charm | Lil' Sandy          125     2               350     + за неделю     
+Charm | Lil' Whiskers       145     45              255     +
+Charm | Lil' Whiskers       145     25              240     +
+Charm | Lil' SAS            50      1,8             450     + за день, дороже не брали
+Charm | Die-cast AK         600     10,5            1650    
+Charm | Baby Karat CT       1800    90              2750    + за день
+
+Charm | Baby Karat CT       1770    90              2900    + за 3 дня
+Charm | Titeenium AWP       600     2,7             1090    +
+
+Charm | Die-cast AK         600     13              1050    +
+Charm | Lil' Sandy          100     98              270     +
+
+Charm | Baby Karat T        3200    93              4900    + за неделю
+Charm | Baby Karat CT       1700    94              3100    + за день
+Charm | Lil' Sandy          125     1,5             450     +
+Charm | Lil' Monster        650     95              1000    + за 4 дня
+Charm | Lil' Monster        630     97              1100    + за день
+Charm | Semi-Precious       2331    2,8             4200    + за день
+Charm | Die-cast AK         530     16              1000    + за день
+
+Charm | Lil' Monster        630     96              1050    + за 4 дня
+Charm | Lil' Monster        630     97              1050    + за день 
+Charm | Die-cast AK         580     18              1050    + за 2 дня 
+Charm | Hot Sauce                   2,5             85      + быстро
+Charm | Hot Sauce                   1,8             90      + быстро
+
+Charm | Baby Karat CT       1800    84              2600    + за 10 дней
+Charm | Baby Karat CT       1800    86              2600    + за 10 дней
+Charm | Lil' Sandy                  1,6             350     + за неделю
+Charm | Lil' Sandy                  98              160     + за день
+Charm | Die-cast AK                 14,9            1030    + за полдня
+Charm | Die-cast AK                 17              1030    + за 2 дня 
+Charm | Die-cast AK                 10,4            1080    + за полдня
+Charm | Die-cast AK                 6,4             1100    + за полдня
+Charm | Die-cast AK                 2,8             1600    + за 2 дня   
+
+Charm | Lil' SAS                    0,196           1050    
+Charm | Lil' SAS                    0,594           550     + за день
+Charm | Lil' SAS                    0,97            500     + за день
+Charm | Glamour Shot                1               500     + за день
+
+Charm | Die-cast AK                 13,9            1040    + за 2 дня 
+Charm | Hot Howl            4200    4,6             7400    + за неделю
+Charm | Hot Howl            4500    4,3             7500    + за 2 дня
+
+Charm | Die-cast AK                 9,7             1020    + за 2 дня 
+Charm | Titeenium AWP               85              1100    +
+Charm | Hot Wurst                   96              2750    + за 3 дня
+
+Desert Eagle | Heat Treated (Battle-Scarred)    150     T3 (651)    2700       + за 2 дня 
+
+
+
+hot sauce                   70-100
+disco mac                   170-160-160
+whiskers                    140
+Charm | Pinch O' Salt       90-95
+
+0,9 1100  580
+0,5 630 650 900
+0,220   874 1500
