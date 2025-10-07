@@ -6,7 +6,7 @@ export default function Navbar({ notif, setNotif, currentPath }) {
     <nav className="navbar">
       <div className="logo">
         <Link to="/">
-          <img src="/src/assets/img/logo.png" alt="logo" />
+          <img src={`${import.meta.env.BASE_URL}assets/img/logo.png`} alt="logo" />
         </Link>
       </div>
       
@@ -20,11 +20,11 @@ export default function Navbar({ notif, setNotif, currentPath }) {
       </div>
 
       <div className="nav-controls">
-        <button onClick={() => setNotif(!notif)} className={`sound-btn ${notif ? '' : 'muted'}`}>
-          <img src={notif ? "/src/assets/img/sound-on.png" : "/src/assets/img/sound-off.png"} alt="sound" />
-        </button>
+        {/* <button onClick={() => setNotif(!notif)} className={`sound-btn ${notif ? '' : 'muted'}`}>
+          <img src={notif ? `${import.meta.env.BASE_URL}assets/img/sound-on.png` : `${import.meta.env.BASE_URL}assets/img/sound-off.png`} alt="sound" />
+        </button> */}
         <div className="profile">
-          <img className="avatar" src="/src/assets/img/steamAvatar2.jpg.png" alt="Profile" />
+          <img className="avatar" src={`${import.meta.env.BASE_URL}assets/img/steamAvatar2.png`} alt="Profile" />
           <span>decumon</span>
         </div>
       </div>

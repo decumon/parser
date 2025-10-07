@@ -285,12 +285,18 @@ Charm | Hot Wurst                   96              2750    + за 3 дня
 
 Desert Eagle | Heat Treated (Battle-Scarred)    150     T3 (651)    2700       + за 2 дня 
 
+Charm | Titeenium AWP       900     95              1400
 
 
-hot sauce                   70-100
-disco mac                   170-160-160
+
+hot sauce                   60-65-75-80        5-10к 1-5к 0-1к
+disco mac                   200-160-160
 whiskers                    140
-Charm | Pinch O' Salt       90-95
+Charm | Pinch O' Salt       95-100
+die-cast                    950
+Charm | Lil' Sandy          150-200-225-250             95k-97k-98k-99k
+
+AK-47 | Searing Rage (Field-Tested)     550
 
 0,9 1100  580
 0,5 630 650 900

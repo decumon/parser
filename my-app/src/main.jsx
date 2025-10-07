@@ -6,18 +6,13 @@ import App from './App'
 import './style.css'
 import { SettingsProvider } from "./context/SettingsContext";
 
-// ReactDOM.createRoot(document.getElementById('root')).render(
-//   <React.StrictMode>
-//     <BrowserRouter>
-//       <App />
-//     </BrowserRouter>
-//   </React.StrictMode>
-// )
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <SettingsProvider>
-      <BrowserRouter>
+      {/* <BrowserRouter>
+        <App />
+      </BrowserRouter> */}
+      <BrowserRouter basename="/parser">
         <App />
       </BrowserRouter>
     </SettingsProvider>

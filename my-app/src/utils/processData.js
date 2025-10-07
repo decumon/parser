@@ -76,7 +76,6 @@
             }
             if (item[0] < notifPrice) {
               //console.log("ИНТЕРЕСНЫЙ ЛОТ", item[2], "паттерн:",item[12],"цена: ", item[0]);
-              onNotification();
               return { shouldNotify: true, shouldCreateCard: true };
             }
           }

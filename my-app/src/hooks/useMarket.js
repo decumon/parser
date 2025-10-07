@@ -77,7 +77,7 @@ export function useMarket(settings) {
   }, []);
 
    useEffect(() => {
-    audioRef.current = new Audio("/src/assets/sounds/new_message_notice.mp3");
+    audioRef.current = new Audio(`${import.meta.env.BASE_URL}assets/sounds/new_message_notice.mp3`);
     audioRef.current.volume = volume; // ← Устанавливаем начальную громкость
   }, []); // ← Только при монтировании
 

@@ -22,22 +22,21 @@ import "../Settings.css";
     updateSettings({ volume: v, notif: v > 0 }); // ← Используем updateSettings
   };
   
-  const toggleMute = () => {
-    if (settings.volume > 0) {
-      setSettings(prev => ({ ...prev, lastVolume: prev.volume, volume: 0, notif: false }));
-    } else {
-      setSettings(prev => ({ ...prev, volume: prev.lastVolume || 0.5, notif: true }));
-    }
-  };
+const toggleMute = () => {
+  if (settings.volume > 0) {
+    updateSettings({ lastVolume: settings.volume, volume: 0, notif: false });
+  } else {
+    updateSettings({ volume: settings.lastVolume || 0.5, notif: true });
+  }
+};
 
-  const handleChange = (field, value) => {
-    setSettings((prev) => ({
-      ...prev,
-      [field]: ["BALANCE", "SKIP_PRICE", "PERCENT_OUT"].includes(field)
-        ? Number(value)   // числа
-        : value           // строки (например, API_KEY)
-    }));
-  };
+const handleChange = (field, value) => {
+  updateSettings({
+    [field]: ["BALANCE", "SKIP_PRICE", "PERCENT_OUT"].includes(field)
+      ? Number(value)   // числа
+      : value           // строки (например, API_KEY)
+  });
+};
 
 // useEffect(() => {
 //   console.log("[SettingsContext] settings изменились:", settings);            //!!!!!!!!!!!!!!!!!
@@ -99,12 +98,7 @@ import "../Settings.css";
             id="api"
             type={showApiKey ? "text" : "password"}
             value={settings.API_KEY}
-            onChange={(e) =>
-              setSettings((prev) => ({
-                ...prev,
-                API_KEY: e.target.value   // 🔹 всегда строка
-              }))
-            }
+            onChange={(e) => updateSettings({ API_KEY: e.target.value })}
           />
           <button
             type="button"

@@ -5,7 +5,7 @@ onmessage = function(e) {
 
   async function loadData() {
     try {
-      console.log(GLOVES);
+      //console.log(GLOVES);
       const urls = [
         `https://market.csgo.com/api/v2/search-list-items-by-hash-name-all?key=${API_KEY}&extended=1&list_hash_name[]=${GLOVES[0]}&list_hash_name[]=${GLOVES[1]}&list_hash_name[]=${GLOVES[2]}&list_hash_name[]=${GLOVES[3]}&list_hash_name[]=${GLOVES[4]}`,
         `https://market.csgo.com/api/v2/search-list-items-by-hash-name-all?key=${API_KEY}&extended=1&list_hash_name[]=${GLOVES1[0]}&list_hash_name[]=${GLOVES1[1]}&list_hash_name[]=${GLOVES1[2]}&list_hash_name[]=${GLOVES1[3]}&list_hash_name[]=${GLOVES1[4]}`,
