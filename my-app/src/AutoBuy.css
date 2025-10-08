@@ -41,3 +41,68 @@ button {
   margin-left: 6px;
   padding: 2px 6px;
 }
+
+.card-header {
+  cursor: pointer;
+  user-select: none;
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease, opacity 0.25s ease;
+  opacity: 0;
+}
+
+.card-content.open {
+  max-height: 600px; /* достаточно для внутреннего контента */
+  opacity: 1;
+}
+
+.edit-btn {
+  margin-top: 8px;
+  background-color: #2d2d2d;
+  border: 1px solid #555;
+  border-radius: 6px;
+  color: #eee;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: background-color 0.2s;
+}
+
+.edit-btn:hover {
+  background-color: #3b3b3b;
+}
+
+.range {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+.range span {
+  display: inline-block;
+  width: 75px; /* одинаковая ширина для всех текстовых блоков */
+  text-align: right;
+}
+
+.range input {
+  width: 80px;
+  margin: 0 4px;
+  background: #111;
+  color: #eee;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
+.range button {
+  margin-left: 6px;
+  padding: 2px 6px;
+}
