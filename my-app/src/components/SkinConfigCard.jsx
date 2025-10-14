@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function SkinConfigCard({ skinName, patterns, onChange, onAdd, onRemove }) {
+export default function SkinConfigCard({ skinName, patterns, onChange, onAdd, onRemove, onDelete, onDragStart }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -8,11 +8,27 @@ export default function SkinConfigCard({ skinName, patterns, onChange, onAdd, on
     <div className="card">
       <h3 className="card-header" onClick={() => setIsOpen(!isOpen)}>
         {isOpen ? "▼ " : "▶ "} {skinName}
+        <span 
+          className="drag-handle" 
+          title="Перетащить для изменения порядка"
+          draggable
+          onDragStart={onDragStart}
+        >
+          ⋮⋮
+        </span>
       </h3>
 
       <div className={`card-content ${isOpen ? "open" : ""}`}>
         {patterns.map((pattern, index) => (
           <div key={index} className="range">
+            {isEditing && (
+              <input
+                type="checkbox"
+                title="Проверять скин"
+                onChange={e => onChange(skinName, index, "enabled", e.target.checked)}
+                style={{ marginRight: '3px', width: '13px' }}
+              />
+            )}
             Паттерн:
             {isEditing ? (
               <>
@@ -20,12 +36,14 @@ export default function SkinConfigCard({ skinName, patterns, onChange, onAdd, on
                   type="number"
                   value={pattern.pattern1}
                   onChange={e => onChange(skinName, index, "pattern1", e.target.value)}
+                  style={{ width: '55px' }}
                 />
                 -
                 <input
                   type="number"
                   value={pattern.pattern2}
                   onChange={e => onChange(skinName, index, "pattern2", e.target.value)}
+                  style={{ width: '55px' }}
                 />
               </>
             ) : (
@@ -37,6 +55,7 @@ export default function SkinConfigCard({ skinName, patterns, onChange, onAdd, on
                 type="number"
                 value={pattern.priceNotif}
                 onChange={e => onChange(skinName, index, "priceNotif", e.target.value)}
+                style={{ width: '55px' }}
               />
             ) : (
               <> {pattern.priceNotif} </>
@@ -47,9 +66,10 @@ export default function SkinConfigCard({ skinName, patterns, onChange, onAdd, on
                 type="number"
                 value={pattern.priceBuy}
                 onChange={e => onChange(skinName, index, "priceBuy", e.target.value)}
+                style={{ width: '55px' }}
               />
             ) : (
-              <> {pattern.priceBuy} </>
+              <> {pattern.priceBuy} {!pattern.enabled && <span style={{ color: 'red', marginLeft: '4px' }}>❌</span>} </>
             )}
 
             {isEditing && <button onClick={() => onRemove(skinName, index)}>❌</button>}
@@ -60,6 +80,9 @@ export default function SkinConfigCard({ skinName, patterns, onChange, onAdd, on
 
         <button className="edit-btn" onClick={() => setIsEditing(!isEditing)}>
           {isEditing ? "💾 Сохранить" : "✏️ Редактировать"}
+        </button>
+        <button className="delete-skin-btn" onClick={onDelete}>
+          🗑 Удалить скин
         </button>
       </div>
     </div>

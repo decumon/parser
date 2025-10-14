@@ -14,10 +14,23 @@ export function saveMarketData(data) {
 export function loadMarketData() {
   const saved = localStorage.getItem(STORAGE_KEY);
   if (saved) {
-    return JSON.parse(saved);
+    const parsed = JSON.parse(saved);
+    // Если нет порядка, создаем его из ключей объектов
+    if (!parsed.glovesOrder) {
+      parsed.glovesOrder = Object.keys(parsed.gloves || DEFAULT_GLOVES_ARR);
+    }
+    if (!parsed.skinsOrder) {
+      parsed.skinsOrder = Object.keys(parsed.itemsFE || DEFAULT_ITEMS_FE);
+    }
+    return parsed;
   }
-  // Если данных нет → возвращаем дефолт
-  return { gloves: DEFAULT_GLOVES_ARR, itemsFE: DEFAULT_ITEMS_FE };
+  // Если данных нет → возвращаем дефолт с порядком
+  return { 
+    gloves: DEFAULT_GLOVES_ARR, 
+    itemsFE: DEFAULT_ITEMS_FE,
+    glovesOrder: Object.keys(DEFAULT_GLOVES_ARR),
+    skinsOrder: Object.keys(DEFAULT_ITEMS_FE)
+  };
 }
 
 export function loadSettings() {

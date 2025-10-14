@@ -42,16 +42,6 @@ body {
   width: auto;  /* Сохраняет пропорции */
   object-fit: contain; /* Не искажает изображение */
 }
-/* Меню */
-/* .menu a {
-  color: #fff;
-  text-decoration: none;
-  margin: 0 10px;
-}
-
-.menu a:hover {
-  text-decoration: underline;
-} */
 
 /* Профиль справа */
 .profile {
@@ -132,139 +122,114 @@ main {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* лёгкая тень */
 }
 
-/* Можно задать разное поведение */
-.left-box {
-  flex: 1;   /* левый шире */
-}
-
-.right-box {
-  flex: 1;   /* правый уже */
-}
-
-#soundbtn{
-    cursor: pointer;
-    transition: opacity 0.3s ease, filter 0.3s ease;
-}
-
-#soundbtn.sound-off{
-    filter: grayscale(100%); /* делаем серым при выключении */
-    opacity: 0.5;            /* слегка затемнённый эффект */    
-}
-
-#GloveText{
-    width:300px;
-}
-
-#FEText{
-    width:300px;
-}
-
 /* Стили для SkinCard */
 .skin-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-  background: white;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.skin-card .card-image {
-  position: relative;
-  height: 150px;
-  overflow: hidden;
-}
-
-.skin-card .card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.skin-card .float-badge,
-.skin-card .pattern-badge {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-}
-
-.skin-card .pattern-badge {
-  left: auto;
-  right: 8px;
-}
-
-.skin-card .card-content {
-  padding: 15px;
-}
-
-.skin-card h3 {
-  margin: 0 0 10px 0;
-  font-size: 16px;
-  color: #333;
-}
-
-.skin-card .price {
-  font-size: 18px;
-  font-weight: bold;
-  color: #2c5aa0;
-  margin: 5px 0;
-}
-
-/* .skin-card .market {
-  font-size: 14px;
-  color: #666;
-  margin: 5px 0;
-}
-
-.skin-card .profit {
-  margin: 10px 0;
-  padding: 8px;
-  background: #f0f8f0;
-  border-radius: 4px;
-  font-size: 14px;
-  color: #2e7d32;
-}
-
-.skin-card .profit span {
-  font-weight: bold;
-} */
-
-.skin-card .card-actions {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid #444;
+  background: #1e1e1e;
+  color: #eee;
+  border-radius: 12px;
+  padding: 12px;
+  width: 240px;
+  margin: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.skin-info {
+  margin-bottom: 10px;
+}
+
+.skin-name {
+  font-size: 1.1em;
+  margin-bottom: 4px;
+}
+
+.price {
+  color: #77ff77;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.float,
+.pattern,
+.profit {
+  font-size: 0.9em;
+  color: #bbb;
+  margin-bottom: 4px;
+}
+
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.buy-btn,
+.blacklist-btn {
+  flex: 1;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #fff;
+  transition: background 0.2s;
+}
+
+.buy-btn {
+  background-color: #3e9641;
+}
+
+.buy-btn:hover {
+  background-color: #2f7733;
+}
+
+.blacklist-btn {
+  background-color: #d65b57;
+}
+
+.blacklist-btn:hover {
+  background-color: #c7433e;
+}
+
+/* Карточки перчаток — общий стиль с skin-card */
+.glove-card {
+  border: 1px solid #444;
+  border-radius: 12px;
+  background: #1e1e1e;
+  color: #eee;
+  padding: 15px;
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+
+.glove-card h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #fff;
+}
+
+/* Кнопки */
+.glove-card .card-actions {
+  display: flex;
+  justify-content: space-between;
   gap: 10px;
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
-.skin-card .buy-btn {
+.glove-card .buy-btn,
+.glove-card .blacklist-btn {
   flex: 1;
-  background: #4caf50;
-  color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 600;
   cursor: pointer;
-  font-weight: bold;
-}
-
-.skin-card .buy-btn:hover {
-  background: #45a049;
-}
-
-.skin-card .blacklist-btn {
-  flex: 1;
-  background: #f44336;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.skin-card .blacklist-btn:hover {
-  background: #da190b;
+  transition: background 0.2s;
 }

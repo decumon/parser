@@ -19,34 +19,34 @@
     const buyPrice0_24 = prices.steam0_24 * buyMnozh;
 
     // --- Покупки ---
-    if (item.price <= buyPrice0_15 && item.extra.float >= 0.15 && item.extra.float <= 0.18 && item.price <= BALANCE*100) {
+    if (prices.enabled0_15 && item.price <= buyPrice0_15 && item.extra.float >= 0.15 && item.extra.float <= 0.18 && item.price <= BALANCE*100) {
       buyItem(API_KEY, item.id, item.price, prices.mhm, item.extra.float);
       //console.log("ПОПЫТКА ПОКУПКИ", prices.mhm, "флот:",item.extra.float,"цена: ", item.price);
       return { shouldNotify: true};
     }
-    if (item.price <= buyPrice0_21 && item.extra.float >= 0.18 && item.extra.float <= 0.21 && item.price <= BALANCE*100) {
+    if (prices.enabled0_21 && item.price <= buyPrice0_21 && item.extra.float >= 0.18 && item.extra.float <= 0.21 && item.price <= BALANCE*100) {
       buyItem(API_KEY, item.id, item.price, prices.mhm, item.extra.float);
       //onsole.log("ПОПЫТКА ПОКУПКИ", prices.mhm, "флот:",item.extra.float,"цена: ", item.price);
       return { shouldNotify: true};
     }
-    if (item.price <= buyPrice0_24 && item.extra.float >= 0.21 && item.extra.float <= 0.24 && item.price <= BALANCE*100) {
+    if (prices.enabled0_24 && item.price <= buyPrice0_24 && item.extra.float >= 0.21 && item.extra.float <= 0.24 && item.price <= BALANCE*100) {
       buyItem(API_KEY, item.id, item.price, prices.mhm, item.extra.float);
       //console.log("ПОПЫТКА ПОКУПКИ", prices.mhm, "флот:",item.extra.float,"цена: ", item.price);
       return { shouldNotify: true};
     }
 
     // --- Нотификации ---
-    if (item.price <= notifPrice0_15 && item.extra.float >= 0.15 && item.extra.float <= 0.18) {
+    if (prices.enabled0_15 && item.price <= notifPrice0_15 && item.extra.float >= 0.15 && item.extra.float <= 0.18) {
       const formPrice = Math.floor(item.price / 100).toLocaleString("ru-RU");
       //console.log(`ПОКУПАЕМ ${prices.mhm} Цена - ${formPrice}, Флоат - ${item.extra.float}, id - ${item.id}`);
       return { shouldNotify: true, shouldCreateCard: true };
     }
-    if (item.price <= notifPrice0_21 && item.extra.float >= 0.18 && item.extra.float <= 0.21) {
+    if (prices.enabled0_21 && item.price <= notifPrice0_21 && item.extra.float >= 0.18 && item.extra.float <= 0.21) {
       const formPrice = Math.floor(item.price / 100).toLocaleString("ru-RU");
       //console.log(`ПОКУПАЕМ ${prices.mhm} Цена - ${formPrice}, Флоат - ${item.extra.float}, id - ${item.id}`);
       return { shouldNotify: true, shouldCreateCard: true};
     }
-    if (item.price <= notifPrice0_24 && item.extra.float >= 0.21 && item.extra.float <= 0.24) {
+    if (prices.enabled0_24 && item.price <= notifPrice0_24 && item.extra.float >= 0.21 && item.extra.float <= 0.24) {
       const formPrice = Math.floor(item.price / 100).toLocaleString("ru-RU");
       //console.log(`ПОКУПАЕМ ${prices.mhm} Цена - ${formPrice}, Флоат - ${item.extra.float}, id - ${item.id}`);
       return { shouldNotify: true, shouldCreateCard: true};
@@ -58,13 +58,13 @@
 
 
   export function checkFeItems (item, prices, notifMnozh, buyMnozh, buyItem, isInBlacklistFE, API_KEY) {
-    let shouldCreateCard = false; // ← Флаг для создания карточки
+    //let shouldCreateCard = false; // ← Флаг для создания карточки
     if (!isInBlacklistFE(item[0], item[1])) {
       //console.log("паттерн-",item[12],"цена-", item[0]);
-      prices.forEach(data => {
+      for (const data of prices) {
         let notifPrice, buyPrice;
         
-        if (data.type === "pattern") {
+        if (data.type === "pattern" && data.enabled) {
           if (item[12] >= data.pattern1 && item[12] <= data.pattern2 && item[12] !== null) {
             notifPrice = Math.round(data.priceNotif * notifMnozh);
             buyPrice = Math.round(data.priceBuy * buyMnozh);
@@ -75,11 +75,11 @@
               //shouldCreateCard = true; // ← Помечаем для создания карточки
             }
             if (item[0] < notifPrice) {
-              //console.log("ИНТЕРЕСНЫЙ ЛОТ", item[2], "паттерн:",item[12],"цена: ", item[0]);
+              console.log("ИНТЕРЕСНЫЙ ЛОТ", item[2], "паттерн:",item[12],"цена: ", item[0]);
               return { shouldNotify: true, shouldCreateCard: true };
             }
           }
-        } else if (data.type === "float") {
+        } else if (data.type === "float" && data.enabled) {
           if (item[10] > data.float1 && item[10] < data.float2) {
             notifPrice = Math.round(data.priceNotif * notifMnozh);
             buyPrice = Math.round(data.priceBuy * buyMnozh);
@@ -93,11 +93,11 @@
               //const logMessage = `${item[2]} float: ${item[10]} price: ${item[0]/100} <${notifPrice/100}`;
               console.log("ИНТЕРЕСНЫЙ ЛОТ", item[2], "флот:",item[10],"цена: ", item[0]);
               return { shouldNotify: true, shouldCreateCard: true};
-            }
-          }
         }
-      });
+        }
+      }
     }
+  }
     return { shouldNotify: false, shouldCreateCard: false};
   };
 

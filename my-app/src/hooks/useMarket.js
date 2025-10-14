@@ -165,7 +165,7 @@ const playNotification = useCallback(() => {
     );
 
     if (result.shouldNotify) onNotification();
-    if (result.shouldBuy) onLog(`Попытка покупки ${item[2]}, float: ${item[10]}, цена: ${item[0]}`);
+    //  if (result.shouldBuy) onLog(`Попытка покупки ${item[2]}, float: ${item[10]}, цена: ${item[0]}`);
 
     return result.shouldCreateCard;
   }, [notifMnozh, buyMnozh, buyItem, onLog, onNotification, isInBlacklistFEWrapper]);
